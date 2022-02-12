@@ -14,6 +14,7 @@ const AddNote = () => {
     const onChange = (e) => {
         setNote({ ...note, [e.target.name]: e.target.value })
     }
+    
     return (
         <div>  <div className="container my-3">
             <h1>Add a Note</h1>
@@ -31,7 +32,7 @@ const AddNote = () => {
                     <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                     <label className="form-check-label" htmlFor="exampleCheck1">Check me out</label>
                 </div>
-                <button className="btn btn-primary" onChange={onChange} onClick={handleClick}>Submit</button>
+                <button className="btn btn-primary" onChange={onChange} onClick={handleClick}>Add Note</button>
             </form>
         </div></div>
     )
