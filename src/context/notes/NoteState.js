@@ -2,6 +2,7 @@ import React from "react";
 import NoteContext from "./noteContext";
 import { useState } from "react";
 export const NoteState=(props)=>{
+   
     const notesInitial=[
         {
           "_id": "61fdf8b2b7cc9778430ncv906ad1",
@@ -69,18 +70,26 @@ export const NoteState=(props)=>{
         }
 
       ]
+     
       const[notes,setNotes]=useState(notesInitial)
+      
       //Add a Note
+      const[_id,setId]=useState(1);
       const addNote=(title,description,tag)=>{
         console.log("Adding a new note");
+      
         const  note={
-          "_id": "61fqdfasd8b2banbj7cc9778430906ad7",
+          "_id": `61fqdfasd8b2banbj7cc9778430906ad7${_id}`,
           "user": "61f8f08065da68b351509a1341",
           "title": title,
           "description": description,
           "tag": tag,
           "__v": 0
          };
+        
+         note._id=note._id+_id;
+         console.log(note._id);
+         setId(_id+5)
          setNotes(notes.concat(note))
       }
       //Delete a Note
