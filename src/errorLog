@@ -1,1 +1,2 @@
 wrong import may lead to data leaks
+hook declarations must outside a function

@@ -86,11 +86,15 @@ export const Notes = (props) => {
       <div className="row my-3">
         <h2>Your Note's</h2>
         <div className="container mx-1">
+          <div disabled={notes.length === 0}>
           {notes.length === 0 && 'Its too Empty out here'}
-        </div>
-        {notes.map((note) => {
+         </div>
+         <div disabled={notes.length !== 0} > 
+        {notes.length !== 0 && notes.map((note) => {
           return <NoteItem key={note._id} showAlert={props.showAlert} updateNote={updateNote} note={note} />
         })}
+        </div>
+        </div>
       </div>
     </>
   )

@@ -1,10 +1,15 @@
 
 import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const Navbar = () => {
+    const navigate = useNavigate();
+    const handleLogOut=()=>{
+        localStorage.removeItem('token');
+        navigate('/login');
+    }
     let location = useLocation();
     React.useEffect(() => {
         //ga.send(["pageview", location.pathname]);
@@ -26,11 +31,11 @@ const Navbar = () => {
                     </li>
 
                 </ul>
-                <form className="d-flex">
+                {!localStorage.getItem('token')?<form className="d-flex">
 
                     <Link type="button" to="/Login"  role="button" className="btn btn-danger mx-2">Log-In</Link>
                     <Link type="button" to="/signup" role="button" className="btn btn-warning mx-2">Sign-Up</Link>
-                </form>
+                </form>:<button onClick={handleLogOut} className='btn btn-secondary'>Log Out</button>}
             </div>
         </div>
     </nav>

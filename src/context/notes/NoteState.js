@@ -50,7 +50,7 @@ export const NoteState = (props) => {
         "auth-token": localStorage.getItem('token')
       },
     });
-    const json= await response.json();
+   // const json= await response.json();
    // console.log(json)
 
     let newNotes = notes.filter((note) => { return note._id !== id }) //returns all notes except the one clicked on 
@@ -67,7 +67,7 @@ export const NoteState = (props) => {
       },
       body: JSON.stringify({title,description,tag}) // body data type must match "Content-Type" header
     });
-    const json = response.json(); // parses JSON response into native JavaScript objects
+   // const json = response.json(); // parses JSON response into native JavaScript objects
     let newNotes=JSON.parse(JSON.stringify(notes));
 
     for (let index = 0; index < notes.length; index++) {
