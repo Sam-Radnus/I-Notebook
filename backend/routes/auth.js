@@ -57,6 +57,7 @@ router.post('/login', [
   body('email', 'Enter a Valid email').isEmail(),
   body('password', 'Password cannot be blank').exists(),
 ], async (req, res) => {
+  let success=false;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -65,11 +66,13 @@ router.post('/login', [
   try {
     let user = await User.findOne({ email });
     if (!user) {
+      success=false;
       return res.status(400).json({ error: "Entry Denied Incorrect Credentials/Username" });
     }
     const passwordCompare = await bcrypt.compare(password, user.password);
     if (!passwordCompare) {
-      return res.status(400).json({ error: "Entry Denied Incorrect Credentials/Password" });
+      success=false;
+      return res.status(400).json({ success, error: "Entry Denied Incorrect Credentials/Password" });
     }
     const data = {
       user: {
@@ -77,7 +80,8 @@ router.post('/login', [
       }
     }
     const authtoken = JWT.sign(data, JWT_SECRET);
-    res.json({ authtoken })
+    success=true;
+    res.json({ success,authtoken })
   } catch (error) {
     console.log(error.message);
     res.status(500).send("internal Server Error");
