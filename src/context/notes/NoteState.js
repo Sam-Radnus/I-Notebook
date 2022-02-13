@@ -11,14 +11,14 @@ export const NoteState = (props) => {
     // console.log("Adding a new note");
     //TODO API CALL
     var response = await fetch(`${host}/api/notes/fetchallnotes`, {
-      method: 'GET', // *GET, POST, PUT, DELETE, etc.
+      method: 'GET', 
       headers: {
         'Content-Type': 'application/json',
         "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFmOGYwODA2NTY4YjM1MTUwOWExMzQxIn0sImlhdCI6MTY0NDAzMDAzNH0.ohEIVvwf-bOb1UlqLAu8N9DzBcQ19mUcyRz-eoCgCiA"
       }
     });
     const json=await response.json();
-    console.log(json);
+   // console.log(json);
     setNotes(json)
   }
   //Add a Note
@@ -60,8 +60,8 @@ export const NoteState = (props) => {
         "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFmOGYwODA2NTY4YjM1MTUwOWExMzQxIn0sImlhdCI6MTY0NDAzMDAzNH0.ohEIVvwf-bOb1UlqLAu8N9DzBcQ19mUcyRz-eoCgCiA"
       },
     });
-    const json=response.json();
-    console.log(json)
+    const json= await response.json();
+   // console.log(json)
 
     let newNotes = notes.filter((note) => { return note._id !== id }) //returns all notes except the one clicked on 
     setNotes(newNotes)
@@ -70,7 +70,7 @@ export const NoteState = (props) => {
   const editNote = async (id, title, description, tag) => {
     //API CALL
     const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
         "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjFmOGYwODA2NTY4YjM1MTUwOWExMzQxIn0sImlhdCI6MTY0NDAzMDAzNH0.ohEIVvwf-bOb1UlqLAu8N9DzBcQ19mUcyRz-eoCgCiA"
@@ -78,15 +78,22 @@ export const NoteState = (props) => {
       body: JSON.stringify({title,description,tag}) // body data type must match "Content-Type" header
     });
     const json = response.json(); // parses JSON response into native JavaScript objects
+    let newNotes=JSON.parse(JSON.stringify(notes));
 
     for (let index = 0; index < notes.length; index++) {
       const element = notes[index];
       if (element._id === id) {
-        element.title = title;
-        element.description = description;
-        element.tag = tag;
+        newNotes[index].title = title;
+        newNotes[index].description = description;
+        newNotes[index].tag = tag;
+        break;
       }
+      
+      
     }
+ //  console.log(newNotes);
+      setNotes(newNotes);
+    
   }
   return (
     <NoteContext.Provider value={{ notes, setNotes, addNote, deleteNote, editNote,getNotes }}>
