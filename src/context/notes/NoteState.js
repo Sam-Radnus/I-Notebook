@@ -34,20 +34,10 @@ export const NoteState = (props) => {
       },
       body: JSON.stringify({title,description,tag}) // body data type must match "Content-Type" header
     });
-    const note = { 
-      "_id": `61fqdfasd8b2banbj7cc9778430906ad7${_id}`,
-      "user": "61f8f08065da68b351509a1341",
-      "title": title,
-      "description": description,
-      "tag": tag,
-      "__v": 0
-    };
+    const note=await response.json();
+    setNotes(notes.concat(note));
 
-    note._id = note._id + _id; 
-    const json = response.json();
-    //console.log(note._id);
-    setId(_id + 5)
-    setNotes(notes.concat(note))
+   
   }
   //Delete a Note
   const deleteNote =async (id) => {

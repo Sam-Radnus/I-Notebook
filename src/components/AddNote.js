@@ -10,6 +10,7 @@ const AddNote = () => {
         //console.log(note.description);
         
         addNote(note.title, note.description, note.tag);
+        setNote({ title: "", description: "", tag: "" })
     }
     const onChange = (e) => {
         setNote({ ...note, [e.target.name]: e.target.value })
@@ -21,18 +22,18 @@ const AddNote = () => {
             <form className="my-3">
                 <div className="mb-3">
                     <label htmlFor="title" className="form-label">Title</label>
-                    <input type="text" className="form-control" id="title" name="title" onChange={onChange} />
+                    <input type="text" className="form-control" id="title" name="title" value={note.title} minLength={5} required onChange={onChange} />
                     <div id="emailHelp" className="form-text">Come up with a Catchy Title</div>
                 </div>
                 <div className="mb-3">
                     <label htmlFor="description" className="form-label">Description</label>
-                    <input type="text" className="form-control" id="description" name="description" onChange={onChange} />
+                    <input type="text" className="form-control" id="description" minLength={5} value={note.description} required name="description" onChange={onChange} />
                 </div>
                 <div className="mb-3">
                     <label htmlFor="tag" className="form-label">Tag</label>
-                    <input type="text" className="form-control" id="tag" name="description" onChange={onChange} />
+                    <input type="text" className="form-control" id="tag" name="description" value={note.tag} onChange={onChange} />
                 </div>
-                <button className="btn btn-primary" onChange={onChange} onClick={handleClick}>Add Note</button>
+                <button disabled={note.title.length<5||note.description.length<5} type="submit" className="btn btn-primary" onChange={onChange} onClick={handleClick}>Add Note</button>
             </form>
         </div></div>
     )
