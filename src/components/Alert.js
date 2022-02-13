@@ -1,9 +1,11 @@
 import React from 'react'
 
-export const Alert = (props) => {
+export default function Alert(props) {
     return (
-        <div className="alert alert-danger" role="alert">
-            {props.message}
+        <div style={{height:'50px'}}>{
+        props.alert && <div className={`alert alert-primary alert-dismissible fade show`} role="alert">
+        <strong>{props.alert.type}</strong>:{props.alert.msg}
+        </div> }
         </div>
     )
 }

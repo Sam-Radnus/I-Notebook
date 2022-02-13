@@ -1,7 +1,8 @@
 import React,{useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = (props) => {
+
     const[credentials,setCredentials]=useState({email:"",password:""});
     const navigate = useNavigate();
     const onChange = (e) => {
@@ -10,12 +11,13 @@ const Login = () => {
     
     const handleSubmit= async (e)=>{
       e.preventDefault();
-      var response = await fetch("http://localhost:5000/api/auth/login", {
+      const {name,email,password}=credentials;
+      const response = await fetch("http://localhost:5000/api/auth/login", {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json', 
         },
-        body:JSON.stringify({email:credentials.email,password:credentials.password})
+        body:JSON.stringify({name,email,password})
       
       });
       const JSON1=await response.json();
@@ -24,11 +26,13 @@ const Login = () => {
       {
           //re direct
           localStorage.setItem('token',JSON1.authtoken);
+          props.showAlert("Login Successfull","success")
           navigate('/');
 
       }
       else{
-          alert("access denied:invalid credentials");
+         
+          props.showAlert(" Access Denied:Invalid Credential","ERROR!!!")
       }
     }
     return (
