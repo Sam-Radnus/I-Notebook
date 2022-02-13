@@ -7,6 +7,10 @@ const { body, validationResult } = require('express-validator');
 const fetchuser=require('../middleware/fetchUser');
 //Create a User using:POST "/api/auth/createUser".Does not Require Auth
 const JWT_SECRET = '$aveMoney';
+
+
+
+
 //ROUTE 1:Create a User using:POST"/api/auth/createUser". No Login Required 
 router.post('/createUser', [
   body('email', 'enter a valid Email').isEmail(),
@@ -14,7 +18,7 @@ router.post('/createUser', [
   body('name', 'enter a valid name').isLength({ min: 3 }),
   body('password', 'password must be of 5 characters').isLength({ min: 5 })
 ], async (req, res) => {
-
+  let success=false;
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -23,7 +27,7 @@ router.post('/createUser', [
   try {
     let user = await User.findOne({ email: req.body.email });
     if (user) {
-      return res.status(400).json({ error: "Sorry a User with this email already exists" })
+      return res.status(400).json({ success,error: "Sorry a User with this email already exists" })
     }
     const salt = await bcrypt.genSalt(10);
     console.log(salt);
@@ -40,8 +44,9 @@ router.post('/createUser', [
       }
     }
     const JWTData = JWT.sign(data, JWT_SECRET);
+    success=true;
     //console.log(JWTData);
-    res.json({ JWTData });
+    res.json({ success, JWTData });
     //res.json(user)
   } catch (error) {
     console.log(error.message);
