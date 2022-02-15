@@ -93,7 +93,7 @@ router.post('/login', [
   }
 
 })
-//ROUTE 3:Get Logged In User details using :post"/api/auth/getuser".Login Required
+//R OUTE 3:Get Logged In User details using :post"/api/auth/getuser".Login Required
 router.post('/getuser',fetchuser, async (req, res) => {
   try {
     userId = req.user.id;
